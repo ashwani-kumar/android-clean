@@ -1,5 +1,5 @@
 
-package com.ashwani.newsfeed.domain.model;
+package com.ashwani.newsfeed.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;

@@ -2,7 +2,7 @@ package com.ashwani.newsfeed.domain.interactors.impl;
 
 import com.ashwani.newsfeed.domain.interactors.base.AbstractInteractor;
 import com.ashwani.newsfeed.domain.interactors.base.NewsFeedInteractor;
-import com.ashwani.newsfeed.domain.model.NewFeed;
+import com.ashwani.newsfeed.entity.model.NewFeed;
 import com.ashwani.newsfeed.domain.repository.FeedRepository;
 
 import io.reactivex.Observable;

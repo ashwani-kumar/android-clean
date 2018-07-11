@@ -1,6 +1,6 @@
 package com.ashwani.newsfeed.domain.repository;
 
-import com.ashwani.newsfeed.domain.model.NewFeed;
+import com.ashwani.newsfeed.entity.model.NewFeed;
 
 import io.reactivex.Observable;
 

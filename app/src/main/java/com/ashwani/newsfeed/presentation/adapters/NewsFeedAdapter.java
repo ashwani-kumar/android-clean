@@ -10,9 +10,14 @@ import android.widget.TextView;
 
 import com.ashwani.newsfeed.R;
 import com.ashwani.newsfeed.customviews.CircularImageView;
-import com.ashwani.newsfeed.domain.model.Result;
+import com.ashwani.newsfeed.domain.model.ResultDomain;
+import com.ashwani.newsfeed.entity.model.MediaMetadatum;
+import com.ashwani.newsfeed.entity.model.Medium;
+import com.ashwani.newsfeed.entity.model.Result;
+import com.ashwani.newsfeed.utility.AppUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +31,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final Picasso picasso;
     private Context mContext;
-    private List<Result> mNewsFeedResults;
+    private List<ResultDomain> mNewsFeedResults;
     private NewsFeedClickListener mClickListener;
 
     @Inject
@@ -35,7 +40,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.picasso = picasso;
     }
 
-    public void setNewsFeedModel(List<Result> newsFeeds) {
+    public void setNewsFeedModel(List<ResultDomain> newsFeeds) {
         mNewsFeedResults = newsFeeds;
     }
 
@@ -55,28 +60,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         NewsFeedItemHolder holder = (NewsFeedItemHolder) viewHolder;
         //Picasso.with(mContext).load(mNewsFeedResults.get(position).getUrl()).into(holder.mNewsFeedImage);
-        Result result = mNewsFeedResults.get(position);
-        if(result != null){
-            Map<String, Object> additionalProperties = result.getAdditionalProperties();
-            if(additionalProperties != null || !additionalProperties.isEmpty()){
-                List<LinkedHashMap> media = (List<LinkedHashMap>) additionalProperties.get("media");
-                if(media != null || !media.isEmpty()){
-                    LinkedHashMap<String, List> mediaMap = null;
-                    mediaMap = (LinkedHashMap<String, List>) media.get(0);
-                    if(mediaMap != null || !mediaMap.isEmpty()) {
-                        List<LinkedHashMap> metaDataList = (List<LinkedHashMap>)mediaMap.get("media-metadata");
-                        if(metaDataList != null  || !metaDataList.isEmpty()){
-                            Map<String, String> imageDetails = metaDataList.get(0);
-                            if(imageDetails != null  || !imageDetails.isEmpty()) {
-                                String url = imageDetails.get("url");
-                                if (url != null) {
-                                    picasso.with(mContext).load(url).into(holder.mNewsFeedImage);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        ResultDomain result = mNewsFeedResults.get(position);
+        String url = AppUtils.getImageUrlFromResult(result);
+        if (url != null) {
+            Picasso.with(mContext).load(url).into(holder.mNewsFeedImage);
         }
         holder.mNewsFeedTitle.setText(mNewsFeedResults.get(position).getTitle());
         holder.mNewsFeedDescription.setText(mNewsFeedResults.get(position).getAbstract());

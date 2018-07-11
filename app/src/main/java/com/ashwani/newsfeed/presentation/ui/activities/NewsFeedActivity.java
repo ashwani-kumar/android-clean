@@ -19,11 +19,13 @@ import com.ashwani.newsfeed.constants.ApplicationConstants;
 import com.ashwani.newsfeed.di.component.DaggerNewFeedActivityComponent;
 import com.ashwani.newsfeed.di.component.NewFeedActivityComponent;
 import com.ashwani.newsfeed.di.modules.NewsFeedActivityModule;
-import com.ashwani.newsfeed.domain.model.Result;
+import com.ashwani.newsfeed.domain.model.ResultDomain;
+import com.ashwani.newsfeed.entity.model.Result;
 import com.ashwani.newsfeed.presentation.adapters.NewsFeedAdapter;
 import com.ashwani.newsfeed.presentation.adapters.NewsFeedClickListener;
 import com.ashwani.newsfeed.presentation.presenters.NewsFeedPresenter.View;
 import com.ashwani.newsfeed.presentation.presenters.impl.NewsFeedPresenterImpl;
+import com.ashwani.newsfeed.utility.AppUtils;
 import com.ashwani.newsfeed.utility.PermissionUtils;
 
 import java.util.List;
@@ -78,7 +80,7 @@ public class NewsFeedActivity extends AppCompatActivity implements View, NewsFee
     }
 
     @Override
-    public void newsFeedResponse(List<Result> results) {
+    public void newsFeedResponse(List<ResultDomain> results) {
         initializeAdapter(results);
     }
     @Override
@@ -96,7 +98,7 @@ public class NewsFeedActivity extends AppCompatActivity implements View, NewsFee
         }
     }
 
-    public void initializeAdapter(List<Result> newsFeeds){
+    public void initializeAdapter(List<ResultDomain> newsFeeds){
         LinearLayoutManager linearLayoutManagerForNewsFeedList = new LinearLayoutManager(this);
         linearLayoutManagerForNewsFeedList.setOrientation(LinearLayoutManager.VERTICAL);
         mNewsFeedRecyclerView.setLayoutManager(linearLayoutManagerForNewsFeedList);
@@ -107,11 +109,12 @@ public class NewsFeedActivity extends AppCompatActivity implements View, NewsFee
     }
 
     @Override
-    public void listItemClicked(Result result) {
+    public void listItemClicked(ResultDomain result) {
         if(result != null){
             Intent detailIntent = new Intent(this, NewsDetailsActivity.class);
             detailIntent.putExtra(ApplicationConstants.BUNDLE_CONSTANT_TITLE, result.getTitle());
             detailIntent.putExtra(ApplicationConstants.BUNDLE_CONSTANT_DESCRIPTION, result.getAbstract());
+            detailIntent.putExtra(ApplicationConstants.BUNDLE_CONSTANT_TITLE_IMAGE, AppUtils.getImageUrlFromResult(result));
             startActivity(detailIntent);
         }
     }

@@ -1,5 +1,5 @@
 
-package com.ashwani.newsfeed.domain.model;
+package com.ashwani.newsfeed.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -62,6 +63,8 @@ public class Result {
     private Long assetId;
     @JsonProperty("views")
     private Integer views;
+    @JsonProperty("media")
+    private List<Medium> media;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -193,6 +196,16 @@ public class Result {
     @JsonProperty("views")
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    @JsonProperty("media")
+    public List<Medium> getMedia() {
+        return media;
+    }
+
+    @JsonProperty("media")
+    public void setMedia(List<Medium> media) {
+        this.media = media;
     }
 
     @JsonAnyGetter

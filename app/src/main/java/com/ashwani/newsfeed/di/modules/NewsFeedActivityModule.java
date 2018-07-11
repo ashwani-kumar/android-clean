@@ -2,6 +2,7 @@ package com.ashwani.newsfeed.di.modules;
 
 import com.ashwani.newsfeed.BuildConfig;
 import com.ashwani.newsfeed.di.scope.MainActivityScope;
+import com.ashwani.newsfeed.domain.model.NewsFeedEntityDomainMapper;
 import com.ashwani.newsfeed.domain.repository.NewsFeedRepository;
 import com.ashwani.newsfeed.presentation.adapters.NewsFeedAdapter;
 import com.ashwani.newsfeed.presentation.presenters.impl.NewsFeedPresenterImpl;
@@ -27,13 +28,19 @@ public class NewsFeedActivityModule {
 
     @Provides
     @MainActivityScope
-    public NewsFeedPresenterImpl newsFeedPresenter(NewsFeedRepository newsFeedRepository) {
-        return new NewsFeedPresenterImpl(newsFeedActivity, newsFeedRepository);
+    public NewsFeedPresenterImpl newsFeedPresenter(NewsFeedRepository newsFeedRepository, NewsFeedEntityDomainMapper newsFeedEntityDomainMapper) {
+        return new NewsFeedPresenterImpl(newsFeedActivity, newsFeedRepository, newsFeedEntityDomainMapper);
     }
 
     @Provides
     @MainActivityScope
     public NewsFeedRepository newFeedRepository() {
         return new NewsFeedRepository(BuildConfig.API_KEY);
+    }
+
+    @Provides
+    @MainActivityScope
+    public NewsFeedEntityDomainMapper newsFeedEntityDomaninMapper() {
+        return new NewsFeedEntityDomainMapper();
     }
 }
